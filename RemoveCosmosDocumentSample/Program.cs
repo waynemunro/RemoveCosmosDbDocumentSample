@@ -64,11 +64,9 @@ namespace RemoveCosmosDocumentSample
             // Set a variable to the Documents path.
             this.database = await this.cosmosClient.CreateDatabaseIfNotExistsAsync(databaseId);
 
-            this.container = this.database.GetContainer(containerId);
-
             Container containerByRid = this.cosmosClient.GetContainer(databaseId, containerId);
 
-            var sqlQueryText = @"SELECT * FROM c -- WHERE c.???"; // <-- your SQL here
+            var sqlQueryText = @"--SELECT * FROM c -- WHERE c.???"; // <-- your SQL here
 
             Console.WriteLine("Running query: {0}\n", sqlQueryText);
 
