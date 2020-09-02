@@ -6,11 +6,11 @@ products:
 - azure-cosmos-db
 - dotnet
 page_type: sample
-description: "This sample shows you how to delete documents from a ConsmosDB container with no Partition Key defined from a .NET console application."
+description: "This sample shows you how to delete documents from a CosmosDB container with no Partition Key defined from a .NET console application."
 ---
 
 # A Sample .NET console app to deleted unpartioned documents from Azure Cosmos DB 
-This sample shows you how to delete documents from a ConsmosDB container with no Partition Key defined from a .NET console application.
+This sample shows you how to delete documents from a CosmosDB container with no Partition Key defined from a .NET console application.
 
 For a complete end-to-end walkthroughs please refer to the [full tutorial on the Azure Cosmos DB documentation page](https://aka.ms/CosmosDotnetGetStarted).
 
