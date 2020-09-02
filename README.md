@@ -6,13 +6,13 @@ products:
 - azure-cosmos-db
 - dotnet
 page_type: sample
-description: "This sample shows you how to use the Azure Cosmos DB service to store and access data from a .NET console application."
+description: "This sample shows you how to delete documents from a CosmosDB container with no Partition Key defined from a .NET console application."
 ---
 
-# Developing a .NET console app using Azure Cosmos DB
-This sample shows you how to use the Azure Cosmos DB service to store and access data from a .NET console application.
+# A Sample .NET console app to deleted unpartioned documents from Azure Cosmos DB 
+This sample shows you how to delete documents from a CosmosDB container with no Partition Key defined from a .NET console application.
 
-For a complete end-to-end walkthrough of creating this application, please refer to the [full tutorial on the Azure Cosmos DB documentation page](https://aka.ms/CosmosDotnetGetStarted).
+For a complete end-to-end walkthroughs please refer to the [full tutorial on the Azure Cosmos DB documentation page](https://aka.ms/CosmosDotnetGetStarted).
 
 ## Running this sample
 
@@ -22,7 +22,7 @@ For a complete end-to-end walkthrough of creating this application, please refer
 
 1. Clone this repository using Git for Windows (http://www.git-scm.com/), or download the zip file.
 
-1. From Visual Studio, open the **GetStarted.sln** file from the root directory.
+1. From Visual Studio, open the **RemoveCosmosDocumentSample.sln** file from the root directory.
 
 1. In Visual Studio Build menu, select **Build Solution** (or Press F6). 
 
@@ -38,7 +38,7 @@ If you don't have an account, see [Create a database account](https://docs.micro
 1. You can now run and debug the application locally by pressing **F5** in Visual Studio.
 
 ## About the code
-The code included in this sample is intended to get you quickly started with a .NET console application that connects to Azure Cosmos DB.
+The code included is a sample .NET console application that connects to Azure Cosmos DB and deletes unpartitioned documents based on a SQL query
 
 ## More information
 
