@@ -68,12 +68,7 @@ namespace RemoveCosmosDocumentSample
 
             Container containerByRid = this.cosmosClient.GetContainer(databaseId, containerId);
 
-            var sqlQueryText = @"SELECT * FROM c 
-                               WHERE c.Type in ('PremierHubWeb.Models.EventHubMessage.CaseCreationEventHubMessage',
-                                                'PremierHubWeb.Models.EventHubMessage.FileUploadEventHubMessage' ,
-                                                'CaseCreationEventHubMessage', 
-                                                'FileUploadEventHubMessage',
-                                                'CaseFailureEventHubMessage')";
+            var sqlQueryText = @"SELECT * FROM c -- WHERE c.???"; // <-- your SQL here
 
             Console.WriteLine("Running query: {0}\n", sqlQueryText);
 
