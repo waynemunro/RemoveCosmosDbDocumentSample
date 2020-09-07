@@ -3,8 +3,6 @@ using System.Threading.Tasks;
 using System.Configuration;
 using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json.Linq;
-using System.Net.Http.Headers;
-using System.IO;
 
 namespace RemoveCosmosDocumentSample
 {
@@ -17,20 +15,10 @@ namespace RemoveCosmosDocumentSample
         private static readonly string PrimaryKey = ConfigurationManager.AppSettings["PrimaryKey"];
 
         // The Cosmos client instance
-        private CosmosClient cosmosClient;
+        private static CosmosClient cosmosClient;
 
-        // The database we will create
-        private Database database;
 
-        // The container we will create.
-        private Container container;
-
-        // The name of the database and container we will create
-        private string databaseId = "reporting";
-        private string containerId = "reporting";
-
-        // <Main>
-        public static async Task Main(string[] args)
+        public static async Task Main()
         {
             try
             {
@@ -50,21 +38,20 @@ namespace RemoveCosmosDocumentSample
             }
             finally
             {
+                cosmosClient.Dispose();
                 Console.WriteLine("End of demo, press any key to exit.");
                 Console.ReadKey();
             }
         }
-        // </Main>
 
 
         private async Task GetAndDeleteReportsAsync()
         {
-            this.cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
+            cosmosClient = new CosmosClient(EndpointUri, PrimaryKey);
 
-            // Set a variable to the Documents path.
-            this.database = await this.cosmosClient.CreateDatabaseIfNotExistsAsync(databaseId);
+            await cosmosClient.CreateDatabaseIfNotExistsAsync("reporting");
 
-            Container containerByRid = this.cosmosClient.GetContainer(databaseId, containerId);
+            Container containerByRid = cosmosClient.GetContainer("reporting", "reporting");
 
             var sqlQueryText = @"--SELECT * FROM c -- WHERE c.???"; // <-- your SQL here
 
@@ -89,10 +76,13 @@ namespace RemoveCosmosDocumentSample
 
                     try
                     {
-                        Log($"Info : records remaining #{currentResultSetCount-- + 1}  " );
-                        Log($"Info : try#{retryCount}  ");
+                        Log($"Info : records remaining #{currentResultSetCount}");
 
                         ItemResponse<JObject> reportDeleteyResponse = await containerByRid.DeleteItemAsync<JObject>(id, PartitionKey.None);
+
+                        currentResultSetCount--;
+
+                        Log($"Info : Deleted Report [{id}] ");
                     }
                     catch (Exception ex)
                     {
@@ -102,42 +92,20 @@ namespace RemoveCosmosDocumentSample
 
                         if (retryCount < 3)
                         {
-                            Log($"Info : Retrying");
+                            Log($"Info : Retrying {retryCount}");
                             goto retry;
                         };
 
                         throw;
                     }
-
-                    Log($"Info : Deleted Report [{id}] ");
                 }
             }
-
         }
 
         public static void Log(string logMessage)
         {
             var timestamp = $"{DateTime.Now.ToLongTimeString()} {DateTime.Now.ToLongDateString()}";
-            Console.WriteLine(timestamp);
-            Console.WriteLine(logMessage);
-
-            // TODO: write to file
-            //StreamWriter w = File.AppendText("log.txt");
-            //w.Write("\r\nLog Entry : ");
-            //w.WriteLine(timestamp);
-            //w.WriteLine("  :");
-            //w.WriteLine($"  :{logMessage}");
-            //w.WriteLine("-------------------------------");
+            Console.WriteLine($"{timestamp} : {logMessage}");
         }
-
-        public static void DumpLog(StreamReader r)
-        {
-            string line;
-            while ((line = r.ReadLine()) != null)
-            {
-                Console.WriteLine(line);
-            }
-        }
-
     }
 }
